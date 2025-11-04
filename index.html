@@ -162,81 +162,80 @@ body {
 let commandHistory = [];
 let historyIndex = -1;
 
-// Fix: Wrap translation keys for 'setlangSuccess' and 'settitleSuccess' with a function for both locales; add missing translations if necessary.
-// Fix: Add string sanitization in commands where innerHTML is used (avoids XSS).
+const forkVersionString = " [fork v1.0]";
 
 const translations = {
   en: {
-    intro: 'Type <span style="color:#fff;">help</span> to see commands. Arrow Up/Down to recall!',
-    exit: 'Exiting OS...',
-    available: 'Available commands:',
-    helpstr: 'help, exit, clear, ver, echo, opensite, time, background, showip, notepad, search, calc, random, creators, lang, settitle, color, taskmanager',
-    version: 'laxminios-ooollama_ fork v1.3.1',
-    echoEmpty: "Enter text after echo",
+    intro: 'Type <span style="color:#fff;">help</span> to see commands. Arrow Up/Down to recall! [fork v1.0]',
+    exit: 'Exiting OS... [fork v1.0]',
+    available: 'Available commands: [fork v1.0]',
+    helpstr: 'help, exit, clear, ver, echo, opensite, time, background, showip, notepad, search, calc, random, creators, lang, settitle, color, taskmanager [fork v1.0]',
+    version: 'laxminios-ooollama_ fork v1.0',
+    echoEmpty: "Enter text after echo [fork v1.0]",
     opensite: "Opening site: ",
-    opensiteHint: "Specify a URL! Example: opensite https://example.com",
+    opensiteHint: "Specify a URL! Example: opensite https://example.com [fork v1.0]",
     time: "Current time: ",
-    backgroundChanged: "Background changed.",
-    backgroundExample: "Example: background #23236a",
-    ipLoading: "Loading IP...",
+    backgroundChanged: "Background changed. [fork v1.0]",
+    backgroundExample: "Example: background #23236a [fork v1.0]",
+    ipLoading: "Loading IP... [fork v1.0]",
     ipDisplay: "Your IP: ",
-    ipError: "Error obtaining IP.",
-    notepadTitle: "Notepad",
+    ipError: "Error obtaining IP. [fork v1.0]",
+    notepadTitle: "Notepad [fork v1.0]",
     save: "Save",
     close: "Close",
     searchDoing: "Searching: ",
-    searchHint: "Specify a keyword after search",
-    calcErrorChar: "Invalid character",
+    searchHint: "Specify a keyword after search [fork v1.0]",
+    calcErrorChar: "Invalid character [fork v1.0]",
     calcResult: "Result: ",
     calcError: "Error: ",
-    calcHint: "Example: calc 2+2*8",
+    calcHint: "Example: calc 2+2*8 [fork v1.0]",
     randomResult: "Random number: ",
-    randomHint: "Example: random 1-100",
-    creators: "Fork by ooollama_. Original: orange227, ChatGPT",
-    tmNotAvailable: "taskmanager is not supported in minimal fork.",
-    unknown: "Unknown command. Type help for list.",
-    setlangSuccess: (lang) => `Language set to ${lang}`,
-    setlangList: "Usage: lang en | ru",
-    settitleSuccess: (title) => `Title set to \"${title}\"`,
-    settitleHint: "Usage: settitle your-title-string",
-    colorChanged: "Terminal text color changed.",
-    colorHint: "Example: color #00ffff"
+    randomHint: "Example: random 1-100 [fork v1.0]",
+    creators: "Fork by ooollama_ [fork v1.0]. Original: orange227, ChatGPT",
+    tmNotAvailable: "taskmanager is not supported in minimal fork. [fork v1.0]",
+    unknown: "Unknown command. Type help for list. [fork v1.0]",
+    setlangSuccess: (lang) => `Language set to ${lang} [fork v1.0]`,
+    setlangList: "Usage: lang en | ru [fork v1.0]",
+    settitleSuccess: (title) => `Title set to \"${title}\" [fork v1.0]`,
+    settitleHint: "Usage: settitle your-title-string [fork v1.0]",
+    colorChanged: "Terminal text color changed. [fork v1.0]",
+    colorHint: "Example: color #00ffff [fork v1.0]"
   },
-  ru: { // Russian equivalents
-    intro: 'Напишите <span style="color:#fff;">help</span>, чтобы увидеть команды. Вверх/Вниз — история!',
-    exit: 'Выход из OS...',
-    available: 'Доступные команды:',
-    helpstr: 'help, exit, clear, ver, echo, opensite, time, background, showip, notepad, search, calc, random, creators, lang, settitle, color, taskmanager',
-    version: 'laxminios-ooollama_ fork v1.3.1',
-    echoEmpty: "Введите текст после echo",
+  ru: {
+    intro: 'Напишите <span style="color:#fff;">help</span>, чтобы увидеть команды. Вверх/Вниз — история! [fork v1.0]',
+    exit: 'Выход из OS... [fork v1.0]',
+    available: 'Доступные команды: [fork v1.0]',
+    helpstr: 'help, exit, clear, ver, echo, opensite, time, background, showip, notepad, search, calc, random, creators, lang, settitle, color, taskmanager [fork v1.0]',
+    version: 'laxminios-ooollama_ fork v1.0',
+    echoEmpty: "Введите текст после echo [fork v1.0]",
     opensite: "Открывается сайт: ",
-    opensiteHint: "Укажите ссылку! Пример: opensite https://example.com",
+    opensiteHint: "Укажите ссылку! Пример: opensite https://example.com [fork v1.0]",
     time: "Текущее время: ",
-    backgroundChanged: "Фон изменён.",
-    backgroundExample: "Пример: background #23236a",
-    ipLoading: "IP загружается...",
+    backgroundChanged: "Фон изменён. [fork v1.0]",
+    backgroundExample: "Пример: background #23236a [fork v1.0]",
+    ipLoading: "IP загружается... [fork v1.0]",
     ipDisplay: "Ваш IP: ",
-    ipError: "Ошибка получения IP.",
-    notepadTitle: "Блокнот",
+    ipError: "Ошибка получения IP. [fork v1.0]",
+    notepadTitle: "Блокнот [fork v1.0]",
     save: "Сохранить",
     close: "Закрыть",
     searchDoing: "Осуществляется поиск: ",
-    searchHint: "Укажите ключевое слово после search",
-    calcErrorChar: "Некорректный символ",
+    searchHint: "Укажите ключевое слово после search [fork v1.0]",
+    calcErrorChar: "Некорректный символ [fork v1.0]",
     calcResult: "Результат: ",
     calcError: "Ошибка: ",
-    calcHint: "Пример: calc 2+2*8",
+    calcHint: "Пример: calc 2+2*8 [fork v1.0]",
     randomResult: "Случайное число: ",
-    randomHint: "Пример: random 1-100",
-    creators: "Форк от ooollama_. Оригинал: orange227, ChatGPT",
-    tmNotAvailable: "taskmanager не поддерживается в минимал форке.",
-    unknown: "Неизвестная команда. help — список.",
-    setlangSuccess: (lang) => `Язык установлен на ${lang}`,
-    setlangList: "Использование: lang en | ru",
-    settitleSuccess: (title) => `Заголовок установлен на \"${title}\"`,
-    settitleHint: "Использование: settitle ваш-заголовок",
-    colorChanged: "Цвет текста терминала изменён.",
-    colorHint: "Пример: color #00ffff"
+    randomHint: "Пример: random 1-100 [fork v1.0]",
+    creators: "Форк от ooollama_ [fork v1.0]. Оригинал: orange227, ChatGPT",
+    tmNotAvailable: "taskmanager не поддерживается в минимал форке. [fork v1.0]",
+    unknown: "Неизвестная команда. help — список. [fork v1.0]",
+    setlangSuccess: (lang) => `Язык установлен на ${lang} [fork v1.0]`,
+    setlangList: "Использование: lang en | ru [fork v1.0]",
+    settitleSuccess: (title) => `Заголовок установлен на \"${title}\" [fork v1.0]`,
+    settitleHint: "Использование: settitle ваш-заголовок [fork v1.0]",
+    colorChanged: "Цвет текста терминала изменён. [fork v1.0]",
+    colorHint: "Пример: color #00ffff [fork v1.0]"
   }
 };
 let currentLang = 'en';
@@ -274,26 +273,42 @@ function setLang(lang) {
 }
 
 function addOutput(text, type = "normal") {
+  // Always add [fork v1.0] to the end if not already present, EXCEPT for .intro line (already appended in translation)
+  let finalText = text;
+  if (
+    type !== "info" ||
+    text !== t('intro')
+  ) {
+    // If the text doesn't already include [fork v1.0] and is not a number result, append
+    if (typeof finalText === "string" && !finalText.includes('[fork v1.0]') && !/^\s*-?\d+(\.\d+)?\s*$/.test(finalText)) {
+      finalText += forkVersionString;
+    }
+  }
   const out = document.createElement('div');
   out.className = 'output-line' + (type && type !== "normal" ? " " + type : "");
   // For .info/typing, support innerHTML for intro only, else textContent for safety
   if (type === "info" && text === t('intro')) {
     out.innerHTML = text; // safe, as it's from translations only, not user input
   } else {
-    out.textContent = text;
+    out.textContent = finalText;
   }
   document.getElementById("termOutput").appendChild(out);
   out.scrollIntoView({ behavior: "smooth", block: "end" });
 }
 
 function addOutputTyping(text, type = "normal", speed = 10) {
+  // Always add [fork v1.0] to the end if not already present
+  let finalText = text;
+  if (typeof finalText === "string" && !finalText.includes('[fork v1.0]')) {
+    finalText += forkVersionString;
+  }
   const out = document.createElement('div');
   out.className = 'output-line animated-type' + (type && type !== "normal" ? " " + type : "");
   document.getElementById("termOutput").appendChild(out);
   let i = 0;
   function typer() {
-    out.textContent = text.slice(0, ++i);
-    if (i < text.length) setTimeout(typer, speed);
+    out.textContent = finalText.slice(0, ++i);
+    if (i < finalText.length) setTimeout(typer, speed);
     else out.classList.remove('animated-type');
   } typer();
 }
@@ -307,7 +322,6 @@ function scrollTermToBottom() {
   if (term) term.scrollTop = term.scrollHeight + 300;
 }
 
-// Fix: Prevent duplicate event adding
 function initializeCommandLine() {
   const input = document.getElementById("commandInput");
   input.focus();
@@ -347,15 +361,8 @@ function initializeCommandLine() {
   });
 }
 
-// Fixes:
-// - Prevent XSS on opensite, echo, notepad download, etc.
-// - Prevents invalid background/color
-// - Prevents invalid eval in calc
 function isColor(str) {
-  // Accepts #abc, #aabbcc, rgb(a), or color names
-  // But here for security/reliability: only allow #hex and a few CSS color names
   if (/^#[0-9a-f]{3,8}$/i.test(str)) return true;
-  // Basic set of global colors
   const basicColors = [
     "black", "white", "gray", "grey", "red", "green", "blue", "yellow", "aqua",
     "fuchsia", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"
@@ -384,6 +391,7 @@ function handleCommand(commandLine) {
 
     case "clear":
       clearTermOutput();
+      addOutput("", "info"); // Show fork version after clear
       break;
 
     case "help":
@@ -401,7 +409,6 @@ function handleCommand(commandLine) {
 
     case "opensite":
       if (argument) {
-        // Only open if it's a valid URL. If not, error.
         if (isValidUrl(argument)) {
           addOutput(t("opensite") + escapeHTML(argument), "info");
           setTimeout(() => window.open(argument, "_blank"), 600);
@@ -442,7 +449,6 @@ function handleCommand(commandLine) {
       break;
 
     case "notepad": {
-      // Remove any visible modal first
       if (document.getElementById("archnotepad-modal")) document.getElementById("archnotepad-modal").remove();
       const modal = document.createElement("div");
       modal.id = "archnotepad-modal";
@@ -475,7 +481,6 @@ function handleCommand(commandLine) {
           a.remove();
         }, 500);
       };
-      // Close with Escape
       modal.addEventListener('keydown', (e) => {
         if (e.key === "Escape") modal.remove();
       });
@@ -493,10 +498,7 @@ function handleCommand(commandLine) {
     case "calc":
       if (argument) {
         try {
-          // Only accept numbers, spaces, ., + - * /
           if (/[^0-9+\-*/()., ]/.test(argument)) throw new Error(t("calcErrorChar"));
-          // Do not use eval directly
-          // eslint-disable-next-line no-new-func
           const fn = Function('"use strict";return (' + argument.replace(",",".") + ')');
           const res = fn();
           if (typeof res !== "number" || isNaN(res)) throw new Error(t("calcError"));
@@ -509,9 +511,7 @@ function handleCommand(commandLine) {
       }
       break;
 
-    case "random":
-      {
-        // Allow space and/or hyphen split
+    case "random": {
         let [min, max] = argument.replace(/\s+/g, '').split("-");
         min = parseInt(min, 10);
         max = parseInt(max, 10);
@@ -571,7 +571,6 @@ function handleCommand(commandLine) {
   }
 }
 
-// Fix: Always set correct state and focus, add robust error proofing
 document.addEventListener("DOMContentLoaded", function () {
   setLang(currentLang); // Set initial language and intro
   initializeCommandLine();
@@ -579,7 +578,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setTimeout(scrollTermToBottom, 100);
 });
 
-// Ensure always only one focus event is attached, prevent error if #terminal not found
 const terminalEl = document.getElementById("terminal");
 if (terminalEl) {
   terminalEl.onmousedown = () => {
